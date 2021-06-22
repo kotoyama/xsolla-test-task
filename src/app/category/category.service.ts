@@ -12,8 +12,19 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async getAllCategories() {
-    return await this.categoryRepository.find()
+  async getAllCategories(offset = 0, limit = 10) {
+    const [items, count] = await this.categoryRepository.findAndCount({
+      order: {
+        id: 'ASC',
+      },
+      skip: offset,
+      take: limit,
+    })
+
+    return {
+      count,
+      items,
+    }
   }
 
   async getCategoryById(id: number) {

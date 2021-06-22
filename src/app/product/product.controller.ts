@@ -3,6 +3,7 @@ import {
   Body,
   Post,
   Put,
+  Query,
   Param,
   Delete,
   Controller,
@@ -17,10 +18,11 @@ import {
   ApiBadRequestResponse,
 } from '@nestjs/swagger'
 
-import { ValidationPipe } from '../../core/pipes'
-
 import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
+
+import { ValidationPipe } from '../../core/pipes'
+import { PaginationParams } from '../../utils/pagination'
 
 @Controller('products')
 @ApiTags('product')
@@ -31,8 +33,8 @@ export class ProductController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all products' })
-  getAll() {
-    return this.productService.getAllProducts()
+  getAll(@Query() { offset, limit }: PaginationParams) {
+    return this.productService.getAllProducts(offset, limit)
   }
 
   @Get(':id')

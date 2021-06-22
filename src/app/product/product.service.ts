@@ -11,8 +11,19 @@ export class ProductService {
     private productRepository: ProductRespository,
   ) {}
 
-  async getAllProducts() {
-    return await this.productRepository.find()
+  async getAllProducts(offset = 0, limit = 10) {
+    const [items, count] = await this.productRepository.findAndCount({
+      order: {
+        id: 'ASC',
+      },
+      skip: offset,
+      take: limit,
+    })
+
+    return {
+      count,
+      items,
+    }
   }
 
   async getProductById(id: number) {

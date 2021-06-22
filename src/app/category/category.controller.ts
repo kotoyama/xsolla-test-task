@@ -3,6 +3,7 @@ import {
   Body,
   Post,
   Put,
+  Query,
   Param,
   Delete,
   Controller,
@@ -17,10 +18,11 @@ import {
   ApiBadRequestResponse,
 } from '@nestjs/swagger'
 
-import { ValidationPipe } from '../../core/pipes'
-
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
+
+import { ValidationPipe } from '../../core/pipes'
+import { PaginationParams } from '../../utils/pagination'
 
 @Controller('category')
 @ApiTags('category')
@@ -31,8 +33,8 @@ export class CategoryController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all categories' })
-  getAll() {
-    return this.categoryService.getAllCategories()
+  getAll(@Query() { offset, limit }: PaginationParams) {
+    return this.categoryService.getAllCategories(offset, limit)
   }
 
   @Get(':id')
