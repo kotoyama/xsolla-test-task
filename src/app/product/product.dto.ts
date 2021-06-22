@@ -1,11 +1,12 @@
 import {
   IsNotEmpty,
+  IsOptional,
   IsNumber,
   IsBoolean,
   IsString,
   IsPositive,
 } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
 export class ProductDto {
   @IsString()
@@ -23,6 +24,7 @@ export class ProductDto {
   inStock: boolean
 
   @IsNumber()
-  @ApiProperty()
+  @IsOptional()
+  @ApiPropertyOptional()
   categoryId: number
 }

@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common'
 import { Repository, EntityRepository } from 'typeorm'
 
 import { Product } from './product.entity'
@@ -14,7 +13,7 @@ export class ProductRespository extends Repository<Product> {
     })
 
     if (!category) {
-      throw new NotFoundException('Category was not found')
+      return null
     }
 
     return category

@@ -15,6 +15,6 @@ export class Category extends BaseEntity {
   @Column()
   title: string
 
-  @OneToMany(() => Product, (product) => product.category.id, { eager: false })
+  @OneToMany(() => Product, (product) => product.category)
   products: Product[]
 }

@@ -21,6 +21,10 @@ export class Product extends BaseEntity {
   @Column()
   inStock: boolean
 
-  @ManyToOne(() => Category, (category) => category.products, { eager: true })
+  @ManyToOne(() => Category, (category) => category.products, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
   category: Category
 }
