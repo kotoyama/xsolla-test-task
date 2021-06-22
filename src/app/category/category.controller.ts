@@ -48,8 +48,8 @@ export class CategoryController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new category' })
-  create(@Body(new ValidationPipe()) categoryDto: CategoryDto) {
-    return this.categoryService.createCategory(categoryDto)
+  create(@Body(new ValidationPipe()) category: CategoryDto) {
+    return this.categoryService.createCategory(category)
   }
 
   @Put(':id')
@@ -59,9 +59,9 @@ export class CategoryController {
   @ApiOperation({ summary: 'Update category by id' })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe()) categoryDto: CategoryDto,
+    @Body(new ValidationPipe()) category: CategoryDto,
   ) {
-    return this.categoryService.updateCategory(id, categoryDto)
+    return this.categoryService.updateCategory(id, category)
   }
 
   @Delete(':id')

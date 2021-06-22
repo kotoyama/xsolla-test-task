@@ -24,13 +24,13 @@ export class CategoryService {
     return result
   }
 
-  async createCategory(categoryDto: CategoryDto) {
-    return await this.categoryRepository.save(categoryDto)
+  async createCategory(category: CategoryDto) {
+    return await this.categoryRepository.save(category)
   }
 
-  async updateCategory(id: number, categoryDto: CategoryDto) {
+  async updateCategory(id: number, category: CategoryDto) {
     const result = await this.getCategoryById(id)
-    await this.categoryRepository.update({ id: result.id }, categoryDto)
+    await this.categoryRepository.update({ id: result.id }, category)
     return await this.categoryRepository.findOne({ where: { id } })
   }
 

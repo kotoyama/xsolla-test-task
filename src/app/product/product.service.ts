@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
 
-import { Product } from './product.entity'
 import { ProductDto } from './product.dto'
+import { ProductRespository } from './product.repository'
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    @InjectRepository(ProductRespository)
+    private productRepository: ProductRespository,
   ) {}
 
   async getAllProducts() {
@@ -24,14 +23,13 @@ export class ProductService {
     return result
   }
 
-  async createProduct(productDto: ProductDto) {
-    return await this.productRepository.save(productDto)
+  async createProduct(product: ProductDto) {
+    return await this.productRepository.createProduct(product)
   }
 
-  async updateProduct(id: number, productDto: ProductDto) {
+  async updateProduct(id: number, product: ProductDto) {
     const result = await this.getProductById(id)
-    await this.productRepository.update({ id: result.id }, productDto)
-    return await this.productRepository.findOne({ where: { id } })
+    return await this.productRepository.updateProduct(result, product)
   }
 
   async deleteProductById(id: number) {

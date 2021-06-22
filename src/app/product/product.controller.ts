@@ -48,8 +48,8 @@ export class ProductController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new product' })
-  create(@Body(new ValidationPipe()) productDto: ProductDto) {
-    return this.productService.createProduct(productDto)
+  create(@Body(new ValidationPipe()) product: ProductDto) {
+    return this.productService.createProduct(product)
   }
 
   @Put(':id')
@@ -59,9 +59,9 @@ export class ProductController {
   @ApiOperation({ summary: 'Update product by id' })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe()) productDto: ProductDto,
+    @Body(new ValidationPipe()) product: ProductDto,
   ) {
-    return this.productService.updateProduct(id, productDto)
+    return this.productService.updateProduct(id, product)
   }
 
   @Delete(':id')
