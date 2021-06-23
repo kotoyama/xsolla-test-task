@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
 
-import { Category } from './category.entity'
 import { CategoryDto } from './category.dto'
+import { CategoryRespository } from './category.repository'
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    @InjectRepository(CategoryRespository)
+    private categoryRepository: CategoryRespository,
   ) {}
 
   async getAllCategories(offset = 0, limit = 10) {
@@ -25,6 +24,10 @@ export class CategoryService {
       count,
       items,
     }
+  }
+
+  async searchCategory(offset = 0, limit = 10, query: string) {
+    return await this.categoryRepository.searchCategory(offset, limit, query)
   }
 
   async getCategoryById(id: number) {

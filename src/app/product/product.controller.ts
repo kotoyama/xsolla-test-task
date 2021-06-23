@@ -22,7 +22,7 @@ import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
 
 import { ValidationPipe } from '../../core/pipes'
-import { PaginationParams } from '../../utils/pagination'
+import { PaginationParams } from '../../core/utils/params'
 
 @Controller('products')
 @ApiTags('product')

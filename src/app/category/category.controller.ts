@@ -22,7 +22,7 @@ import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
 
 import { ValidationPipe } from '../../core/pipes'
-import { PaginationParams } from '../../utils/pagination'
+import { PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('category')
 @ApiTags('category')
@@ -33,7 +33,10 @@ export class CategoryController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all categories' })
-  getAll(@Query() { offset, limit }: PaginationParams) {
+  getAll(@Query() { offset, limit, search }: PaginationSearchParams) {
+    if (search) {
+      return this.categoryService.searchCategory(offset, limit, search)
+    }
     return this.categoryService.getAllCategories(offset, limit)
   }
 
