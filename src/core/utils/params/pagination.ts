@@ -5,12 +5,12 @@ export class PaginationParams {
   @IsOptional()
   @IsNumber()
   @Min(0)
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ minimum: 0, default: 0 })
   offset: number
 
   @IsOptional()
   @IsNumber()
   @Min(1)
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ minimum: 1, default: 10 })
   limit: number
 }
