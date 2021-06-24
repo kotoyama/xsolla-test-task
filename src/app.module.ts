@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common'
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { typeOrmConfig } from './config/typeorm.config'
+
+import { ormConfig } from './config/typeorm.config'
 
 import { HttpExceptionFilter } from './core/filters'
 import { LoggingInterceptor } from './core/interceptors'
@@ -10,11 +11,7 @@ import { ProductModule } from './app/product/product.module'
 import { CategoryModule } from './app/category/category.module'
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
-    ProductModule,
-    CategoryModule,
-  ],
+  imports: [TypeOrmModule.forRoot(ormConfig), ProductModule, CategoryModule],
   providers: [
     {
       provide: APP_FILTER,
