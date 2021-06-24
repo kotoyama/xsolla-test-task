@@ -22,7 +22,7 @@ import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
 
 import { ValidationPipe } from '../../core/pipes'
-import { PaginationParams } from '../../core/utils/params'
+import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('products')
 @ApiTags('product')
@@ -33,7 +33,20 @@ export class ProductController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all products' })
-  getAll(@Query() { offset, limit }: PaginationParams) {
+  getAll(
+    @Query() paginationSearchParams: PaginationSearchParams,
+    @Query() filterParams: FilterParams,
+  ) {
+    const { offset, limit, search } = paginationSearchParams
+    const { priceFrom, priceTo, inStock, categoryId } = filterParams
+
+    if (search || priceFrom || priceTo || inStock || categoryId) {
+      return this.productService.filterProducts(
+        paginationSearchParams,
+        filterParams,
+      )
+    }
+
     return this.productService.getAllProducts(offset, limit)
   }
 

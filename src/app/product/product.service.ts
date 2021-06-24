@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ProductDto } from './product.dto'
 import { ProductRespository } from './product.repository'
 
+import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
+
 @Injectable()
 export class ProductService {
   constructor(
@@ -24,6 +26,16 @@ export class ProductService {
       count,
       items,
     }
+  }
+
+  async filterProducts(
+    paginationSearchParams: PaginationSearchParams,
+    filterParams: FilterParams,
+  ) {
+    return await this.productRepository.filterProducts(
+      paginationSearchParams,
+      filterParams,
+    )
   }
 
   async getProductById(id: number) {
