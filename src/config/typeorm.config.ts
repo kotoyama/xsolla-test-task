@@ -3,11 +3,17 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 const commonConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   port: 5432,
   synchronize: true,
-  ssl: process.env.NODE_ENV === 'production',
+  entities: [`${__dirname}/../**/*.entity.{js,ts}`],
+  ssl: isProduction,
+  extra: {
+    ssl: isProduction ? { rejectUnauthorized: false } : null,
+  },
 }
 
 const localConfig: TypeOrmModuleOptions = {
@@ -16,7 +22,6 @@ const localConfig: TypeOrmModuleOptions = {
   username: `${process.env.DB_USERNAME}`,
   password: `${process.env.DB_PASSWORD}`,
   database: `${process.env.DB_NAME}`,
-  entities: [`${__dirname}/../**/*.entity.{js,ts}`],
 }
 
 const prodConfig: TypeOrmModuleOptions = {
@@ -25,8 +30,6 @@ const prodConfig: TypeOrmModuleOptions = {
   username: `${process.env.DB_PROD_USERNAME}`,
   password: `${process.env.DB_PROD_PASSWORD}`,
   database: `${process.env.DB_PROD_NAME}`,
-  entities: ['dist/**/*.entity.{js,ts}'],
 }
 
-export const ormConfig =
-  process.env.NODE_ENV === 'development' ? localConfig : prodConfig
+export const ormConfig = isProduction ? prodConfig : localConfig
