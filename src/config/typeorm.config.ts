@@ -30,7 +30,6 @@ const prodConfig: TypeOrmModuleOptions = {
   username: `${process.env.DB_PROD_USERNAME}`,
   password: `${process.env.DB_PROD_PASSWORD}`,
   database: `${process.env.DB_PROD_NAME}`,
-  url: `${process.env.DB_PROD_URL}`,
 }
 
 export const ormConfig = isProduction ? prodConfig : localConfig
