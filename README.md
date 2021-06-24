@@ -1,4 +1,4 @@
-## Тестовое задание Xsolla School 2021 Backend
+# Тестовое задание Xsolla School 2021 Backend
 
 Описание задания находится [здесь](https://github.com/xsolla/xsolla-school-backend-2021).
 

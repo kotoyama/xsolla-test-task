@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { ProductDto } from './product.dto'
-import { ProductRespository } from './product.repository'
+import { ProductRepository } from './product.repository'
 
 import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(ProductRespository)
-    private productRepository: ProductRespository,
+    @InjectRepository(ProductRepository)
+    private productRepository: ProductRepository,
   ) {}
 
   async getAllProducts(offset = 0, limit = 10) {

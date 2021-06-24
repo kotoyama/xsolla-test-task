@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { CategoryDto } from './category.dto'
-import { CategoryRespository } from './category.repository'
+import { CategoryRepository } from './category.repository'
 
 @Injectable()
 export class CategoryService {
   constructor(
-    @InjectRepository(CategoryRespository)
-    private categoryRepository: CategoryRespository,
+    @InjectRepository(CategoryRepository)
+    private categoryRepository: CategoryRepository,
   ) {}
 
   async getAllCategories(offset = 0, limit = 10) {

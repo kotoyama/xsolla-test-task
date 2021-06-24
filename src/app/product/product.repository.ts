@@ -7,7 +7,7 @@ import { Category } from '../category/category.entity'
 import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @EntityRepository(Product)
-export class ProductRespository extends Repository<Product> {
+export class ProductRepository extends Repository<Product> {
   private async getCategory(id: number) {
     const category = await Category.findOne({
       where: { id },
