@@ -34,5 +34,3 @@ const prodConfig: TypeOrmModuleOptions = {
 }
 
 export const ormConfig = isProduction ? prodConfig : localConfig
-
-console.log(ormConfig)
