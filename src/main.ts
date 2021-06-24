@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 
 import { AppModule } from './app.module'
+import { TrimPipe } from './core/pipes/trim'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('api')
+  app.useGlobalPipes(new TrimPipe())
 
   const options = new DocumentBuilder()
     .setTitle('Xsolla School 2021 Test Task API')

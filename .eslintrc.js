@@ -22,6 +22,7 @@ module.exports = {
     'no-shadow': 'off',
     'no-console': ['warn'],
     'no-return-await': 'off',
+    'no-return-assign': 'off',
     'import/extensions': 'off',
     'no-useless-constructor': 'off',
     'class-methods-use-this': 'off',
