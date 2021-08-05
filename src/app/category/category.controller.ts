@@ -24,8 +24,8 @@ import { CategoryService } from './category.service'
 import { ValidationPipe } from '../../core/pipes'
 import { PaginationSearchParams } from '../../core/utils/params'
 
-@Controller('category')
-@ApiTags('category')
+@Controller('categories')
+@ApiTags('categories')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 

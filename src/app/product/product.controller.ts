@@ -25,7 +25,7 @@ import { ValidationPipe } from '../../core/pipes'
 import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('products')
-@ApiTags('product')
+@ApiTags('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
