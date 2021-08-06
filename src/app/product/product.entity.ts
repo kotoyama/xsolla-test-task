@@ -5,14 +5,14 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { ObjectType, Int, Field } from '@nestjs/graphql'
+import { ObjectType, Int, ID, Field } from '@nestjs/graphql'
 import { Category } from '../category/category.entity'
 
 @Entity()
 @ObjectType()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => Int)
+  @Field(() => ID)
   id: number
 
   @Column()

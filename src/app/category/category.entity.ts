@@ -5,14 +5,15 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { ObjectType, Int, Field } from '@nestjs/graphql'
+import { ObjectType, ID, Field } from '@nestjs/graphql'
 import { Product } from '../product/product.entity'
+import { Paginated } from '../../core/utils/params/pagination'
 
 @Entity()
 @ObjectType()
 export class Category extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => Int)
+  @Field(() => ID)
   id: number
 
   @Column()
@@ -23,3 +24,6 @@ export class Category extends BaseEntity {
   @Field(() => [Product])
   products: Product[]
 }
+
+@ObjectType()
+export class PagedCategories extends Paginated(Category) {}

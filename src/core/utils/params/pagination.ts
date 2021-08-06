@@ -1,20 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IsOptional, IsNumber, Min } from 'class-validator'
+import { Type } from '@nestjs/common'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { ArgsType, ObjectType, Int, Field } from '@nestjs/graphql'
 
-@ObjectType()
 export class PaginationParams {
   @IsOptional()
   @IsNumber()
   @Min(0)
-  @Field({ nullable: true })
   @ApiPropertyOptional({ minimum: 0, default: 0 })
   offset: number
 
   @IsOptional()
   @IsNumber()
   @Min(1)
-  @Field({ nullable: true })
   @ApiPropertyOptional({ minimum: 1, default: 10 })
   limit: number
 }
@@ -28,14 +27,14 @@ export class PaginationArgs {
   limit: number
 }
 
-interface IEdgeType<T> {
-  cursor: string
-  node: T
-}
+export function Paginated<T>(classRef: Type<T>): any {
+  @ObjectType({ isAbstract: true })
+  abstract class PaginatedType {
+    @Field(() => [classRef], { nullable: true })
+    items: T[]
 
-export interface IPaginatedType<T> {
-  edges: IEdgeType<T>[]
-  nodes: T[]
-  totalCount: number
-  hasNextPage: boolean
+    @Field(() => Int)
+    count: number
+  }
+  return PaginatedType
 }

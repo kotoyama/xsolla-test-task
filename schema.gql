@@ -3,13 +3,18 @@
 # ------------------------------------------------------
 
 type Category {
-  id: Int!
+  id: ID!
   title: String!
   products: [Product!]!
 }
 
+type PagedCategories {
+  items: [Category!]
+  count: Int!
+}
+
 type Product {
-  id: Int!
+  id: ID!
   title: String!
   price: Int!
   inStock: Boolean!
@@ -18,5 +23,5 @@ type Product {
 
 type Query {
   category(id: Int!): Category!
-  categories(offset: Int = 0, limit: Int = 10): [Category!]!
+  categories(offset: Int = 0, limit: Int = 10, search: String): PagedCategories!
 }

@@ -1,3 +1,3 @@
 export { FilterParams } from './filters'
-export { PaginationParams } from './pagination'
-export { PaginationSearchParams } from './search'
+export { PaginationParams, PaginationArgs } from './pagination'
+export { PaginationSearchParams, PaginationSearchQueryArgs } from './search'
