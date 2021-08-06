@@ -27,7 +27,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     'class-methods-use-this': 'off',
     'lines-between-class-members': 'off',
-    'max-classes-per-file': ['error', 2],
+    'max-classes-per-file': ['off'],
     'import/prefer-default-export': 'off',
     'no-param-reassign': ['error', { props: false }],
     'no-underscore-dangle': ['warn', { allow: ['_id'] }],

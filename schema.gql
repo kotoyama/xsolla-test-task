@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: Int!
+  title: String!
+  products: [Product!]!
+}
+
+type Product {
+  id: Int!
+  title: String!
+  price: Int!
+  inStock: Boolean!
+  category: Category
+}
+
+type Query {
+  category(id: Int!): Category!
+  categories(offset: Int = 0, limit: Int = 10): [Category!]!
+}

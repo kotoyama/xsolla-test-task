@@ -5,20 +5,26 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
 } from 'typeorm'
+import { ObjectType, Int, Field } from '@nestjs/graphql'
 import { Category } from '../category/category.entity'
 
 @Entity()
+@ObjectType()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @Field(() => Int)
   id: number
 
   @Column()
+  @Field()
   title: string
 
   @Column()
+  @Field(() => Int)
   price: number
 
   @Column()
+  @Field()
   inStock: boolean
 
   @ManyToOne(() => Category, (category) => category.products, {
@@ -26,5 +32,6 @@ export class Product extends BaseEntity {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @Field(() => Category, { nullable: true })
   category: Category
 }
