@@ -1,5 +1,8 @@
 import { IsNumber, IsOptional, IsBoolean, Min } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger'
+import { ArgsType, Field, Int } from '@nestjs/graphql'
+
+import { PaginationSearchQueryArgs } from './search'
 
 export class FilterParams {
   @IsNumber()
@@ -23,5 +26,20 @@ export class FilterParams {
   @IsNumber()
   @IsOptional()
   @ApiPropertyOptional()
+  categoryId: number
+}
+
+@ArgsType()
+export class PaginationFilterArgs extends PaginationSearchQueryArgs {
+  @Field(() => Int, { nullable: true })
+  priceFrom: number
+
+  @Field(() => Int, { nullable: true })
+  priceTo: number
+
+  @Field({ nullable: true })
+  inStock: boolean
+
+  @Field(() => Int, { nullable: true })
   categoryId: number
 }

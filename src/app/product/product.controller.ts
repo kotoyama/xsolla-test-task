@@ -38,15 +38,12 @@ export class ProductController {
     @Query() filterParams: FilterParams,
   ) {
     const { offset, limit, search } = paginationSearchParams
-    const { priceFrom, priceTo, inStock, categoryId } = filterParams
-
-    if (search || priceFrom || priceTo || inStock || categoryId) {
+    if (Object.values(filterParams).some((param) => !!param) || search) {
       return this.productService.filterProducts(
         paginationSearchParams,
         filterParams,
       )
     }
-
     return this.productService.getAllProducts(offset, limit)
   }
 

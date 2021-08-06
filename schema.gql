@@ -21,7 +21,14 @@ type Product {
   category: Category
 }
 
+type PagedProducts {
+  items: [Product!]
+  count: Int!
+}
+
 type Query {
+  product(id: Int!): Product!
+  products(search: String, offset: Int = 0, limit: Int = 10, priceFrom: Int, priceTo: Int, inStock: Boolean, categoryId: Int): PagedProducts!
   category(id: Int!): Category!
   categories(offset: Int = 0, limit: Int = 10, search: String): PagedCategories!
 }
