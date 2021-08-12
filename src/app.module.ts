@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core'
+import { APP_FILTER, APP_INTERCEPTOR, APP_GUARD } from '@nestjs/core'
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 
@@ -19,6 +20,10 @@ import { CategoryModule } from './app/category/category.module'
       installSubscriptionHandlers: true,
       autoSchemaFile: 'schema.gql',
     }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
     ProductModule,
     CategoryModule,
     AuthModule,
@@ -31,6 +36,10 @@ import { CategoryModule } from './app/category/category.module'
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

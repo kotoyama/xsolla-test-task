@@ -1,8 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { useContainer } from 'class-validator'
-// import * as cookieParser from 'cookie-parser'
-// import * as csurf from 'csurf'
+import * as helmet from 'helmet'
 
 import { isProduction } from './config/typeorm.config'
 
@@ -22,8 +21,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new TrimPipe())
   app.useGlobalPipes(new ValidationPipe())
-  // app.use(cookieParser())
-  // app.use(csurf({ cookie: { key: '_csrf', sameSite: true } }))
+  app.use(helmet())
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
