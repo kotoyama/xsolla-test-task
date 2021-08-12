@@ -3,10 +3,10 @@ import { Strategy, ExtractJwt } from 'passport-jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 
-import { JwtPayload } from '../../app/auth/types'
-import { UserRepository } from '../../app/auth/user.repository'
+import { JwtPayload } from '../types'
+import { UserRepository } from '../user.repository'
 
-import { extractCookie } from '../utils'
+import { extractCookie } from '../../../core/utils'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
