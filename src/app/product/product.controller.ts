@@ -25,7 +25,6 @@ import { AuthGuard } from '@nestjs/passport'
 import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
 
-import { ValidationPipe } from '../../core/pipes'
 import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('products')
@@ -67,7 +66,7 @@ export class ProductController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new product' })
-  create(@Body(new ValidationPipe()) product: ProductDto) {
+  create(@Body() product: ProductDto) {
     return this.productService.createProduct(product)
   }
 
@@ -76,10 +75,7 @@ export class ProductController {
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Update product by id' })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe()) product: ProductDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() product: ProductDto) {
     return this.productService.updateProduct(id, product)
   }
 

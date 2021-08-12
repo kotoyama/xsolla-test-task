@@ -1,15 +1,31 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import { useContainer } from 'class-validator'
+// import * as cookieParser from 'cookie-parser'
+// import * as csurf from 'csurf'
+
+import { isProduction } from './config/typeorm.config'
 
 import { AppModule } from './app.module'
-import { TrimPipe } from './core/pipes/trim'
+import { TrimPipe, ValidationPipe } from './core/pipes'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  app.enableCors()
+  app.enableCors({
+    credentials: true,
+    origin: isProduction
+      ? `${process.env.PROD_CORS_ORIGIN}`
+      : `${process.env.CORS_ORIGIN}`,
+  })
+
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new TrimPipe())
+  app.useGlobalPipes(new ValidationPipe())
+  // app.use(cookieParser())
+  // app.use(csurf({ cookie: { key: '_csrf', sameSite: true } }))
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
   const options = new DocumentBuilder()
     .setVersion('1.0')

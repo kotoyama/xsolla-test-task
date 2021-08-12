@@ -23,8 +23,14 @@ export class ValidationPipe<K> implements PipeTransform<K> {
       return value
     }
 
-    const object = plainToClass(metatype, value)
-    const errors = await validate(object)
+    const object = plainToClass(metatype, value, {
+      enableImplicitConversion: true,
+    })
+
+    const errors = await validate(object, {
+      whitelist: true,
+      forbidUnknownValues: true,
+    })
 
     if (errors.length > 0) {
       throw new HttpException(

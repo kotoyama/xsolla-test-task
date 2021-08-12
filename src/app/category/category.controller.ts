@@ -25,7 +25,6 @@ import { AuthGuard } from '@nestjs/passport'
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
 
-import { ValidationPipe } from '../../core/pipes'
 import { PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('categories')
@@ -60,7 +59,7 @@ export class CategoryController {
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new category' })
-  create(@Body(new ValidationPipe()) category: CategoryDto) {
+  create(@Body() category: CategoryDto) {
     return this.categoryService.createCategory(category)
   }
 
@@ -69,10 +68,7 @@ export class CategoryController {
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Update category by id' })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe()) category: CategoryDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() category: CategoryDto) {
     return this.categoryService.updateCategory(id, category)
   }
 

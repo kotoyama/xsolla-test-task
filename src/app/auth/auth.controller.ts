@@ -11,8 +11,6 @@ import {
 import { AuthService } from './auth.service'
 import { AuthCredentialsDto } from './dto'
 
-import { ValidationPipe } from '../../core/pipes'
-
 @Controller('auth')
 @ApiTags('auth')
 @ApiCreatedResponse()
@@ -23,14 +21,14 @@ export class AuthController {
   @Post('/signup')
   @ApiConflictResponse()
   @ApiOperation({ summary: 'Sign up' })
-  signUp(@Body(new ValidationPipe()) authCredentialsDto: AuthCredentialsDto) {
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.signUp(authCredentialsDto)
   }
 
   @Post('/login')
   @ApiUnauthorizedResponse()
   @ApiOperation({ summary: 'Sign in' })
-  signIn(@Body(new ValidationPipe()) authCredentialsDto: AuthCredentialsDto) {
+  signIn(@Body() authCredentialsDto: AuthCredentialsDto) {
     return this.authService.signIn(authCredentialsDto)
   }
 }
