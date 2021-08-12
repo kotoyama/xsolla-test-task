@@ -8,7 +8,7 @@ import {
 import { ObjectType, Int, ID, Field } from '@nestjs/graphql'
 
 import { Category } from '../category/category.entity'
-import { Paginated } from '../../core/utils/params/pagination'
+import { Paginated } from '../../core/utils'
 
 @Entity()
 @ObjectType()

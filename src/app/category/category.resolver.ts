@@ -3,7 +3,7 @@ import { Inject } from '@nestjs/common'
 
 import { CategoryService } from './category.service'
 import { Category, PagedCategories } from './category.entity'
-import { PaginationSearchQueryArgs } from '../../core/utils/params'
+import { PaginationSearchQueryArgs } from '../../core/utils'
 
 @Resolver(() => Category)
 export class CategoryResolver {

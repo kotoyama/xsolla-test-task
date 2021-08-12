@@ -3,7 +3,7 @@ import { Inject } from '@nestjs/common'
 
 import { ProductService } from './product.service'
 import { Product, PagedProducts } from './product.entity'
-import { PaginationFilterArgs } from '../../core/utils/params'
+import { PaginationFilterArgs } from '../../core/utils'
 
 @Resolver(() => Product)
 export class ProductResolver {

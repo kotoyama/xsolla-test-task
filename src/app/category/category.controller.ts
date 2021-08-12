@@ -25,7 +25,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
 
-import { PaginationSearchParams } from '../../core/utils/params'
+import { PaginationSearchParams } from '../../core/utils'
 
 @Controller('categories')
 @UseGuards(AuthGuard())

@@ -25,7 +25,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
 
-import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
+import { FilterParams, PaginationSearchParams } from '../../core/utils'
 
 @Controller('products')
 @UseGuards(AuthGuard())

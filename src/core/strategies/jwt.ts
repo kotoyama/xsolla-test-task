@@ -6,6 +6,8 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtPayload } from '../../app/auth/types'
 import { UserRepository } from '../../app/auth/user.repository'
 
+import { extractCookie } from '../utils'
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -13,7 +15,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private userRepository: UserRepository,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        extractCookie,
+      ]),
       ignoreExpiration: false,
       secretOrKey: `${process.env.JWT_SECRET}`,
     })
