@@ -6,12 +6,25 @@ import { TrimPipe } from './core/pipes/trim'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
+  app.enableCors()
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new TrimPipe())
 
   const options = new DocumentBuilder()
-    .setTitle('Xsolla School 2021 Test Task API')
     .setVersion('1.0')
+    .setTitle('Xsolla School 2021 Test Task API')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build()
 
   const document = SwaggerModule.createDocument(app, options)

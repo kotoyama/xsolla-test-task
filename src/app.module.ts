@@ -8,6 +8,7 @@ import { ormConfig } from './config/typeorm.config'
 import { HttpExceptionFilter } from './core/filters'
 import { LoggingInterceptor } from './core/interceptors'
 
+import { AuthModule } from './app/auth/auth.module'
 import { ProductModule } from './app/product/product.module'
 import { CategoryModule } from './app/category/category.module'
 
@@ -20,6 +21,7 @@ import { CategoryModule } from './app/category/category.module'
     }),
     ProductModule,
     CategoryModule,
+    AuthModule,
   ],
   providers: [
     {

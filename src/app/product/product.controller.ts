@@ -8,6 +8,7 @@ import {
   Delete,
   Controller,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -16,7 +17,10 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
+  ApiBearerAuth,
 } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
 
 import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
@@ -25,7 +29,10 @@ import { ValidationPipe } from '../../core/pipes'
 import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('products')
+@UseGuards(AuthGuard())
 @ApiTags('products')
+@ApiBearerAuth('JWT-auth')
+@ApiUnauthorizedResponse()
 export class ProductController {
   constructor(private productService: ProductService) {}
 

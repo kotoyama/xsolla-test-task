@@ -8,6 +8,7 @@ import {
   Delete,
   Controller,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -16,7 +17,10 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
+import { AuthGuard } from '@nestjs/passport'
 
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
@@ -25,7 +29,10 @@ import { ValidationPipe } from '../../core/pipes'
 import { PaginationSearchParams } from '../../core/utils/params'
 
 @Controller('categories')
+@UseGuards(AuthGuard())
 @ApiTags('categories')
+@ApiBearerAuth('JWT-auth')
+@ApiUnauthorizedResponse()
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
