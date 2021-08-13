@@ -7,20 +7,16 @@ import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller'
 import { UserRepository } from './user.repository'
 import { JwtStrategy } from './strategies/jwt.strategy'
+import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy'
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: `${process.env.JWT_SECRET}`,
-      signOptions: {
-        expiresIn: 3600,
-      },
-    }),
     TypeOrmModule.forFeature([UserRepository]),
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, JwtRefreshStrategy],
   exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

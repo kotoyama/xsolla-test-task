@@ -11,7 +11,8 @@ export class UserRepository extends Repository<User> {
     const user = new User()
     user.username = username
     user.salt = await bcrypt.genSalt()
-    user.password = await this.hashPassword(password, user.salt)
+    user.password = await this.hashData(password, user.salt)
+    user.refreshToken = null
     try {
       await user.save()
     } catch (error) {
@@ -21,8 +22,8 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  private async hashPassword(password: string, salt: string) {
-    return bcrypt.hash(password, salt)
+  private async hashData(data: string, salt: string) {
+    return bcrypt.hash(data, salt)
   }
 
   async validateUserPassword({ username, password }: AuthCredentialsDto) {
@@ -31,5 +32,17 @@ export class UserRepository extends Repository<User> {
       return user.username
     }
     return null
+  }
+
+  async setCurrentRefreshToken(refreshToken: string, username: string) {
+    const user = await this.findOne({ username })
+    const hashedRefreshToken = await this.hashData(refreshToken, user.salt)
+    await this.update(user, { refreshToken: hashedRefreshToken })
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
+    const user = await this.findOne({ username })
+    const isMatching = await bcrypt.compare(refreshToken, user.refreshToken)
+    return user && isMatching ? user : null
   }
 }

@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import * as bcrypt from 'bcrypt'
+import { Exclude } from 'class-transformer'
 
 @Entity()
 @Unique(['username'])
@@ -13,7 +14,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column()
+  @Column({ unique: true })
   username: string
 
   @Column()
@@ -21,6 +22,10 @@ export class User extends BaseEntity {
 
   @Column()
   salt: string
+
+  @Column({ nullable: true })
+  @Exclude()
+  refreshToken?: string
 
   async validatePassword(password: string) {
     const hash = await bcrypt.hash(password, this.salt)

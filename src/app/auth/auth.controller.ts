@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common'
+import { Req, Get, Body, Controller, Post, UseGuards } from '@nestjs/common'
 import {
   ApiTags,
   ApiOperation,
@@ -10,6 +10,8 @@ import {
 
 import { AuthService } from './auth.service'
 import { AuthCredentialsDto } from './dto'
+import JwtAuthRefreshGuard from './guards/jwt-auth-refresh.guard'
+import { UserRequest } from './types'
 
 @Controller('auth')
 @ApiTags('auth')
@@ -28,7 +30,19 @@ export class AuthController {
   @Post('/login')
   @ApiUnauthorizedResponse()
   @ApiOperation({ summary: 'Sign in' })
-  signIn(@Body() authCredentialsDto: AuthCredentialsDto) {
-    return this.authService.signIn(authCredentialsDto)
+  signIn(@Req() request, @Body() authCredentialsDto: AuthCredentialsDto) {
+    return this.authService.signIn(request, authCredentialsDto)
+  }
+
+  @Get('/refresh')
+  @UseGuards(JwtAuthRefreshGuard)
+  @ApiUnauthorizedResponse()
+  @ApiOperation({ summary: 'Refresh token' })
+  refresh(@Req() request: UserRequest) {
+    const accessTokenCookie = this.authService.getJwtAccessTokenCookie(
+      request.user.username,
+    )
+    request.res.setHeader('Set-Cookie', accessTokenCookie)
+    return { message: 'Access token refreshed.' }
   }
 }

@@ -1,1 +1,0 @@
-export { extractCookie } from './cookie'
