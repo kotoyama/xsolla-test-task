@@ -20,15 +20,15 @@ import {
   ApiBearerAuth,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger'
-import { AuthGuard } from '@nestjs/passport'
 
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
 
 import { PaginationSearchParams } from '../../core/utils'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 @Controller('categories')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 @ApiTags('categories')
 @ApiBearerAuth('JWT-auth')
 @ApiUnauthorizedResponse()

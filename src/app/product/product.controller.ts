@@ -20,15 +20,15 @@ import {
   ApiUnauthorizedResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger'
-import { AuthGuard } from '@nestjs/passport'
 
 import { ProductDto } from './product.dto'
 import { ProductService } from './product.service'
 
 import { FilterParams, PaginationSearchParams } from '../../core/utils'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 
 @Controller('products')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 @ApiTags('products')
 @ApiBearerAuth('JWT-auth')
 @ApiUnauthorizedResponse()
