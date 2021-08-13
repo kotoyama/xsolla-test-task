@@ -42,7 +42,10 @@ export class UserRepository extends Repository<User> {
 
   async getUserIfRefreshTokenMatches(refreshToken: string, username: string) {
     const user = await this.findOne({ username })
-    const isMatching = await bcrypt.compare(refreshToken, user.refreshToken)
-    return user && isMatching ? user : null
+    if (user && user.refreshToken) {
+      const isMatching = await bcrypt.compare(refreshToken, user.refreshToken)
+      return isMatching ? user : null
+    }
+    return null
   }
 }

@@ -18,7 +18,7 @@ import {
   ApiNotFoundResponse,
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
-  ApiBearerAuth,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger'
 
 import { ProductDto } from './product.dto'
@@ -26,16 +26,20 @@ import { ProductService } from './product.service'
 
 import { FilterParams, PaginationSearchParams } from '../../core/utils'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+import { RolesAllowed } from '../auth/decorators/roles.decorator'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Role } from '../auth/types'
 
 @Controller('products')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('products')
-@ApiBearerAuth('JWT-auth')
 @ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all products' })
@@ -54,6 +58,7 @@ export class ProductController {
   }
 
   @Get(':id')
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
@@ -63,6 +68,7 @@ export class ProductController {
   }
 
   @Post()
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new product' })
@@ -71,6 +77,7 @@ export class ProductController {
   }
 
   @Put(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
@@ -80,6 +87,7 @@ export class ProductController {
   }
 
   @Delete(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()

@@ -17,8 +17,8 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger'
 
 import { CategoryDto } from './category.dto'
@@ -26,16 +26,20 @@ import { CategoryService } from './category.service'
 
 import { PaginationSearchParams } from '../../core/utils'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+import { RolesAllowed } from '../auth/decorators/roles.decorator'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Role } from '../auth/types'
 
 @Controller('categories')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('categories')
-@ApiBearerAuth('JWT-auth')
 @ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get()
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all categories' })
@@ -47,6 +51,7 @@ export class CategoryController {
   }
 
   @Get(':id')
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
@@ -56,6 +61,7 @@ export class CategoryController {
   }
 
   @Post()
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new category' })
@@ -64,6 +70,7 @@ export class CategoryController {
   }
 
   @Put(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
@@ -73,6 +80,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()

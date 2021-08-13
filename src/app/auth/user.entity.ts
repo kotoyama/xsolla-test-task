@@ -7,6 +7,7 @@ import {
 } from 'typeorm'
 import * as bcrypt from 'bcrypt'
 import { Exclude } from 'class-transformer'
+import { Role } from './types'
 
 @Entity()
 @Unique(['username'])
@@ -26,6 +27,9 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   @Exclude()
   refreshToken?: string
+
+  @Column({ type: 'enum', array: true, enum: Role, default: [Role.CONSUMER] })
+  roles: Role[]
 
   async validatePassword(password: string) {
     const hash = await bcrypt.hash(password, this.salt)

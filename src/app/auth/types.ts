@@ -9,3 +9,9 @@ export interface JwtPayload {
 export interface UserRequest extends Request {
   user: User
 }
+
+export enum Role {
+  ADMIN = 'admin',
+  CONSUMER = 'consumer',
+  SUPPLIER = 'supplier',
+}
