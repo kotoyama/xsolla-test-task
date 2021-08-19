@@ -1,4 +1,30 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/xsolla-test-task/src",
+  "monorepo": true,
+  "root": "apps/xsolla-test-task",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/xsolla-test-task/tsconfig.app.json"
+  },
+  "projects": {
+    "xsolla-test-task": {
+      "type": "application",
+      "root": "apps/xsolla-test-task",
+      "entryFile": "main",
+      "sourceRoot": "apps/xsolla-test-task/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/xsolla-test-task/tsconfig.app.json"
+      }
+    },
+    "microservices-client": {
+      "type": "application",
+      "root": "apps/microservices-client",
+      "entryFile": "main",
+      "sourceRoot": "apps/microservices-client/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/microservices-client/tsconfig.app.json"
+      }
+    }
+  }
 }

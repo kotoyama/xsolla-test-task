@@ -9,7 +9,7 @@ const commonConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   port: 5432,
   synchronize: true,
-  entities: [`${__dirname}/../**/*.entity.{js,ts}`],
+  entities: [`${__dirname}/../../**/*.entity.{js,ts}`],
   ssl: isProduction,
   extra: {
     ssl: isProduction ? { rejectUnauthorized: false } : null,
