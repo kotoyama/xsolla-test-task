@@ -39,7 +39,7 @@ $ yarn start:dev
 
 ## Docker
 
-## Первый запуск
+### Первый запуск
 
 ```bash
 # запуск сборки докер-контейнеров
@@ -49,7 +49,7 @@ $ docker-compose build
 $ docker-compose up
 ```
 
-## Повторный запуск
+### Повторный запуск
 
 ```bash
 $ docker-compose up
