@@ -1,17 +1,35 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import { useContainer } from 'class-validator'
+import * as cookieParser from 'cookie-parser'
+import * as helmet from 'helmet'
+
+import { isProduction } from './config/typeorm.config'
 
 import { AppModule } from './app.module'
-import { TrimPipe } from './core/pipes/trim'
+import { TrimPipe, ValidationPipe } from './core/pipes'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
+  app.enableCors({
+    credentials: true,
+    origin: isProduction
+      ? `${process.env.CORS_ORIGIN_PROD}`
+      : `${process.env.CORS_ORIGIN}`,
+  })
+
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new TrimPipe())
+  app.useGlobalPipes(new ValidationPipe())
+  app.use(cookieParser())
+  app.use(helmet())
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true })
 
   const options = new DocumentBuilder()
-    .setTitle('Xsolla School 2021 Test Task API')
     .setVersion('1.0')
+    .setTitle('Xsolla School 2021 Test Task API')
     .build()
 
   const document = SwaggerModule.createDocument(app, options)

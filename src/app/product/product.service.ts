@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ProductDto } from './product.dto'
 import { ProductRepository } from './product.repository'
 
-import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
+import { FilterParams, PaginationSearchParams } from '../../core/utils'
 
 @Injectable()
 export class ProductService {

@@ -4,7 +4,7 @@ import { Product } from './product.entity'
 import { ProductDto } from './product.dto'
 
 import { Category } from '../category/category.entity'
-import { FilterParams, PaginationSearchParams } from '../../core/utils/params'
+import { FilterParams, PaginationSearchParams } from '../../core/utils'
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {

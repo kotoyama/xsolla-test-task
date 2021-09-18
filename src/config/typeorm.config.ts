@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 
 dotenv.config()
 
-const isProduction = process.env.NODE_ENV === 'production'
+export const isProduction = process.env.NODE_ENV === 'production'
 
 const commonConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -18,10 +18,10 @@ const commonConfig: TypeOrmModuleOptions = {
 
 const localConfig: TypeOrmModuleOptions = {
   ...commonConfig,
-  host: `${process.env.DB_HOST}`,
-  username: `${process.env.DB_USERNAME}`,
-  password: `${process.env.DB_PASSWORD}`,
-  database: `${process.env.DB_NAME}`,
+  host: `${process.env.POSTGRES_HOST}`,
+  username: `${process.env.POSTGRES_USER}`,
+  password: `${process.env.POSTGRES_PASSWORD}`,
+  database: `${process.env.POSTGRES_DB}`,
 }
 
 const prodConfig: TypeOrmModuleOptions = {

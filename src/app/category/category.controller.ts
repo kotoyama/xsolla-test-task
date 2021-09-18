@@ -8,6 +8,7 @@ import {
   Delete,
   Controller,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -16,20 +17,29 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger'
 
 import { CategoryDto } from './category.dto'
 import { CategoryService } from './category.service'
 
-import { ValidationPipe } from '../../core/pipes'
-import { PaginationSearchParams } from '../../core/utils/params'
+import { PaginationSearchParams } from '../../core/utils'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
+import { RolesAllowed } from '../auth/decorators/roles.decorator'
+import { RolesGuard } from '../auth/guards/roles.guard'
+import { Role } from '../auth/types'
 
-@Controller('category')
-@ApiTags('category')
+@Controller('categories')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiTags('categories')
+@ApiUnauthorizedResponse()
+@ApiForbiddenResponse()
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}
 
   @Get()
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiOperation({ summary: 'Get all categories' })
@@ -41,6 +51,7 @@ export class CategoryController {
   }
 
   @Get(':id')
+  @RolesAllowed(Role.ADMIN, Role.CONSUMER, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
@@ -50,26 +61,26 @@ export class CategoryController {
   }
 
   @Post()
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiCreatedResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Create new category' })
-  create(@Body(new ValidationPipe()) category: CategoryDto) {
+  create(@Body() category: CategoryDto) {
     return this.categoryService.createCategory(category)
   }
 
   @Put(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
   @ApiOperation({ summary: 'Update category by id' })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe()) category: CategoryDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() category: CategoryDto) {
     return this.categoryService.updateCategory(id, category)
   }
 
   @Delete(':id')
+  @RolesAllowed(Role.ADMIN, Role.SUPPLIER)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   @ApiBadRequestResponse()
